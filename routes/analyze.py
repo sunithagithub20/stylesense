@@ -36,12 +36,12 @@ MOCK_RESULT = {
     "why_it_works": "The recommended color palette works perfectly for your skin tone — navy blue and light grey create a harmonious contrast, while tan accents complement your natural undertones beautifully.",
     "style_vibe": ["Casual", "Business"],
     "shopping_items": [
-        {"name": "Navy Blue Suit", "query": "navy blue suit men"},
-        {"name": "Light Grey Polo Shirt", "query": "light grey polo shirt"},
-        {"name": "Dark Brown Chinos", "query": "dark brown chinos men"},
-        {"name": "Tan Leather Loafers", "query": "tan leather loafers men"},
-        {"name": "Leather Watch", "query": "men leather watch"},
-        {"name": "Burgundy Loafers", "query": "burgundy loafers men"}
+        {"name": "Navy Blue Blazer", "query": "navy blue blazer"},
+        {"name": "Light Grey Shirt", "query": "light grey shirt"},
+        {"name": "Dark Brown Trousers", "query": "dark brown trousers"},
+        {"name": "Tan Leather Shoes", "query": "tan leather shoes"},
+        {"name": "Classic Watch", "query": "classic leather watch"},
+        {"name": "Burgundy Loafers", "query": "burgundy loafers"}
     ]
 }
 
@@ -195,6 +195,9 @@ Return only JSON, no other text."""
     # 2e. Demo fallback
     if style_data is None:
         style_data = {k: MOCK_RESULT[k] for k in MOCK_RESULT if k != "skin_tone"}
+        # If demo mode, adjust mock queries to the current gender
+        for item in style_data.get("shopping_items", []):
+            item["query"] = f"{item['query']} for {gender}"
         ai_provider_used = "demo"
 
     # ── Step 3: HF style vibe classification (bonus enrichment) ───────
