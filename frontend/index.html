@@ -16,60 +16,6 @@
 
 <body>
 
-  <!-- ═══════════════ SETTINGS MODAL ═══════════════ -->
-  <div class="modal-backdrop" id="settingsModal">
-    <div class="modal">
-      <button class="modal-close" id="closeSettings">✕</button>
-      <div class="modal-icon">⚙️</div>
-      <h2>API Settings</h2>
-      <p class="modal-desc">Enter your API keys to power full AI analysis. All keys are free.</p>
-      <div class="field-group">
-        <label>Gemini API Key <span class="hint-link"><a href="https://aistudio.google.com" target="_blank">Get free
-              →</a></span></label>
-        <div class="key-row">
-          <input type="password" id="geminiKey" placeholder="AIza..." class="key-input" />
-          <button class="eye-btn" data-target="geminiKey">👁</button>
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Groq API Key <span class="hint-link"><a href="https://console.groq.com" target="_blank">Get free
-              →</a></span></label>
-        <div class="key-row">
-          <input type="password" id="groqKey" placeholder="gsk_..." class="key-input" />
-          <button class="eye-btn" data-target="groqKey">👁</button>
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Hugging Face Token <span class="hint-link"><a href="https://huggingface.co/settings/tokens"
-              target="_blank">Get free →</a></span></label>
-        <div class="key-row">
-          <input type="password" id="hfToken" placeholder="hf_..." class="key-input" />
-          <button class="eye-btn" data-target="hfToken">👁</button>
-        </div>
-      </div>
-      <div class="field-group">
-        <label>IBM watsonx API Key <span class="hint-link"><a href="https://www.ibm.com/watsonx" target="_blank">Get
-              free →</a></span></label>
-        <div class="key-row">
-          <input type="password" id="ibmKey" placeholder="IBM API Key..." class="key-input" />
-          <button class="eye-btn" data-target="ibmKey">👁</button>
-        </div>
-      </div>
-      <div class="field-group">
-        <label>IBM Project ID <span class="hint-link"><a href="https://www.ibm.com/watsonx" target="_blank">From watsonx
-              →</a></span></label>
-        <div class="key-row">
-          <input type="text" id="ibmProjectId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" class="key-input" />
-        </div>
-      </div>
-      <div class="modal-note">💡 Skip to use demo mode — sample results will be shown. Any key you add activates that
-        AI.</div>
-      <div class="modal-actions">
-        <button class="btn-outline" id="skipSettings">Use Demo Mode</button>
-        <button class="btn-primary" id="saveSettings">Save Keys</button>
-      </div>
-    </div>
-  </div>
 
   <!-- ═══════════════ HEADER ═══════════════ -->
   <header class="header" id="mainHeader">
@@ -84,10 +30,9 @@
         <a href="#try-it" class="nav-link">Try It</a>
         <a href="#how-it-works" class="nav-link">How It Works</a>
       </nav>
-      <button class="btn-settings" id="openSettings">⚙ Settings</button>
-      <div class="ai-status" id="aiStatus">
+      <div class="ai-status live" id="aiStatus">
         <span class="status-dot"></span>
-        <span id="statusText">Demo Mode</span>
+        <span id="statusText">AI Live</span>
       </div>
     </div>
   </header>

@@ -50,88 +50,11 @@ const $ = id => document.getElementById(id);
 
 // ─── Init ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  loadSavedKeys();
-  initModal();
   initNav();
   initUpload();
   initGender();
   initAnalyze();
-  updateAIStatus();
 });
-
-// ─── Saved Keys ──────────────────────────────────────────────
-function loadSavedKeys() {
-  state.geminiKey = localStorage.getItem('ss_gemini') || '';
-  state.groqKey = localStorage.getItem('ss_groq') || '';
-  state.hfToken = localStorage.getItem('ss_hf') || '';
-  state.ibmKey = localStorage.getItem('ss_ibm_key') || '';
-  state.ibmProjectId = localStorage.getItem('ss_ibm_project') || '';
-  if (state.geminiKey) $('geminiKey').value = state.geminiKey;
-  if (state.groqKey) $('groqKey').value = state.groqKey;
-  if (state.hfToken) $('hfToken').value = state.hfToken;
-  if (state.ibmKey) $('ibmKey').value = state.ibmKey;
-  if (state.ibmProjectId) $('ibmProjectId').value = state.ibmProjectId;
-}
-
-function saveKeys() {
-  state.geminiKey = $('geminiKey').value.trim();
-  state.groqKey = $('groqKey').value.trim();
-  state.hfToken = $('hfToken').value.trim();
-  state.ibmKey = $('ibmKey').value.trim();
-  state.ibmProjectId = $('ibmProjectId').value.trim();
-  if (state.geminiKey) localStorage.setItem('ss_gemini', state.geminiKey);
-  if (state.groqKey) localStorage.setItem('ss_groq', state.groqKey);
-  if (state.hfToken) localStorage.setItem('ss_hf', state.hfToken);
-  if (state.ibmKey) localStorage.setItem('ss_ibm_key', state.ibmKey);
-  if (state.ibmProjectId) localStorage.setItem('ss_ibm_project', state.ibmProjectId);
-  updateAIStatus();
-  hideModal('settingsModal');
-}
-
-function updateAIStatus() {
-  const el = $('aiStatus');
-  const txt = $('statusText');
-  const providers = [
-    state.geminiKey && 'Gemini',
-    state.groqKey && 'Groq',
-    state.hfToken && 'HF',
-    state.ibmKey && 'IBM',
-  ].filter(Boolean);
-
-  if (providers.length > 0) {
-    el.classList.add('live');
-    txt.textContent = providers.join(' · ') + ' Live';
-  } else {
-    el.classList.remove('live');
-    txt.textContent = 'Demo Mode';
-  }
-}
-
-// ─── Modal ───────────────────────────────────────────────────
-function initModal() {
-  $('openSettings').onclick = () => showModal('settingsModal');
-  $('closeSettings').onclick = () => hideModal('settingsModal');
-  $('skipSettings').onclick = () => hideModal('settingsModal');
-  $('saveSettings').onclick = saveKeys;
-
-  // Show on first visit
-  if (!localStorage.getItem('ss_visited')) {
-    showModal('settingsModal');
-    localStorage.setItem('ss_visited', '1');
-  }
-
-  // Eye toggles
-  document.querySelectorAll('.eye-btn').forEach(btn => {
-    btn.onclick = () => {
-      const inp = $(btn.dataset.target);
-      inp.type = inp.type === 'password' ? 'text' : 'password';
-      btn.textContent = inp.type === 'password' ? '👁' : '🙈';
-    };
-  });
-}
-
-function showModal(id) { $(id).classList.remove('hidden'); }
-function hideModal(id) { $(id).classList.add('hidden'); }
 
 // ─── Navigation ──────────────────────────────────────────────
 function initNav() {
@@ -242,11 +165,7 @@ async function runAnalysis() {
     const fd = new FormData();
     fd.append('file', state.photoFile);
     fd.append('gender', state.gender);
-    if (state.geminiKey) fd.append('gemini_key', state.geminiKey);
-    if (state.groqKey) fd.append('groq_key', state.groqKey);
-    if (state.hfToken) fd.append('hf_token', state.hfToken);
-    if (state.ibmKey) fd.append('ibm_key', state.ibmKey);
-    if (state.ibmProjectId) fd.append('ibm_project_id', state.ibmProjectId);
+    // Keys are picked up from .env on backend
 
     // Step indicators
     setLoadStep(1);
