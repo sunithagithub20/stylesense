@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StyleSense – AI Fashion Advisor</title>
+  <meta name="description"
+    content="StyleSense: Upload your photo and get personalized fashion recommendations based on your skin tone, powered by Generative AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════ SETTINGS MODAL ═══════════════ -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal">
+      <button class="modal-close" id="closeSettings">✕</button>
+      <div class="modal-icon">⚙️</div>
+      <h2>API Settings</h2>
+      <p class="modal-desc">Enter your API keys to power full AI analysis. All keys are free.</p>
+      <div class="field-group">
+        <label>Gemini API Key <span class="hint-link"><a href="https://aistudio.google.com" target="_blank">Get free
+              →</a></span></label>
+        <div class="key-row">
+          <input type="password" id="geminiKey" placeholder="AIza..." class="key-input" />
+          <button class="eye-btn" data-target="geminiKey">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Groq API Key <span class="hint-link"><a href="https://console.groq.com" target="_blank">Get free
+              →</a></span></label>
+        <div class="key-row">
+          <input type="password" id="groqKey" placeholder="gsk_..." class="key-input" />
+          <button class="eye-btn" data-target="groqKey">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Hugging Face Token <span class="hint-link"><a href="https://huggingface.co/settings/tokens"
+              target="_blank">Get free →</a></span></label>
+        <div class="key-row">
+          <input type="password" id="hfToken" placeholder="hf_..." class="key-input" />
+          <button class="eye-btn" data-target="hfToken">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>IBM watsonx API Key <span class="hint-link"><a href="https://www.ibm.com/watsonx" target="_blank">Get
+              free →</a></span></label>
+        <div class="key-row">
+          <input type="password" id="ibmKey" placeholder="IBM API Key..." class="key-input" />
+          <button class="eye-btn" data-target="ibmKey">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>IBM Project ID <span class="hint-link"><a href="https://www.ibm.com/watsonx" target="_blank">From watsonx
+              →</a></span></label>
+        <div class="key-row">
+          <input type="text" id="ibmProjectId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" class="key-input" />
+        </div>
+      </div>
+      <div class="modal-note">💡 Skip to use demo mode — sample results will be shown. Any key you add activates that
+        AI.</div>
+      <div class="modal-actions">
+        <button class="btn-outline" id="skipSettings">Use Demo Mode</button>
+        <button class="btn-primary" id="saveSettings">Save Keys</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="header" id="mainHeader">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-gem">✦</span>
+        <span class="logo-name">StyleSense</span>
+      </div>
+      <nav class="nav">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#try-it" class="nav-link">Try It</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+      </nav>
+      <button class="btn-settings" id="openSettings">⚙ Settings</button>
+      <div class="ai-status" id="aiStatus">
+        <span class="status-dot"></span>
+        <span id="statusText">Demo Mode</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="eyebrow">✦ Powered by Gemini · Groq · IBM · Hugging Face</span>
+        <h1>Your Personal <span class="grad">AI Fashion</span> Stylist</h1>
+        <p class="hero-sub">Upload your photo and get hyper-personalized styling recommendations based on your unique
+          skin tone and features — completely free.</p>
+        <div class="hero-btns">
+          <a href="#try-it" class="btn-primary hero-cta">Get Started →</a>
+          <a href="#features" class="btn-ghost">See Features</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-analysis">
+              <div class="phone-avatar">👤</div>
+              <div class="phone-scan">
+                <div class="scan-bar"></div>
+                <p>Analyzing style...</p>
+              </div>
+            </div>
+            <div class="phone-result">
+              <div class="tone-chip">
+                <span class="tone-swatch" style="background:#C68642"></span>
+                Warm Medium
+              </div>
+              <div class="rec-chips">
+                <span class="chip">Navy Blue ✓</span>
+                <span class="chip">Camel ✓</span>
+                <span class="chip">Olive ✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURES ═══════════════ -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Why StyleSense</p>
+        <h2>Why Choose StyleSense?</h2>
+        <p class="section-sub">Everything you need for a complete AI-powered style transformation.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feat-icon">📸</div>
+          <h3>Instant Analysis</h3>
+          <p>Upload a photo and get AI-powered styling recommendations in seconds</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🎨</div>
+          <h3>Color Matching</h3>
+          <p>Get recommendations perfectly matched to your skin tone and complexion</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🛍️</div>
+          <h3>Product Links</h3>
+          <p>Direct shopping links to purchase recommended items from top brands</p>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">⭐</div>
+          <h3>Professional Tips</h3>
+          <p>Learn hairstyle, accessories, and styling tips from fashion experts</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TRY IT ═══════════════ -->
+  <section class="try-section" id="try-it">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Let's Style You</p>
+        <h2>Get Your Style Profile</h2>
+        <p class="section-sub">Upload a clear frontal photo and let our AI craft your personalized style guide.</p>
+      </div>
+
+      <!-- Upload Panel -->
+      <div class="try-grid" id="uploadPanel">
+        <div class="upload-card glass-card">
+          <h3>Your Details</h3>
+          <div class="gender-select">
+            <p class="gender-label">I am:</p>
+            <div class="gender-btns">
+              <button class="gender-btn active" data-g="male" id="genderMale">♂ Male</button>
+              <button class="gender-btn" data-g="female" id="genderFemale">♀ Female</button>
+            </div>
+          </div>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="photoInput" accept="image/png,image/jpg,image/jpeg,image/gif,image/webp"
+              class="file-inp" />
+            <div class="drop-inside" id="dropInner">
+              <div class="drop-icon-big">☁️</div>
+              <p class="drop-title">Drag & Drop Your Photo</p>
+              <p class="drop-or">or</p>
+              <button class="btn-browse" id="browseBtn">Click to Browse</button>
+              <p class="drop-types">Supported: PNG, JPG, JPEG, GIF, WEBP (Max 10MB)</p>
+            </div>
+            <img id="photoPreview" class="photo-preview hidden" alt="Your photo" />
+          </div>
+          <button class="btn-primary full" id="analyzeBtn" disabled>✦ Analyze My Style</button>
+        </div>
+
+        <div class="preview-panel glass-card" id="previewPanel">
+          <div class="preview-empty" id="previewEmpty">
+            <div class="preview-icon">🪄</div>
+            <p>Upload your photo to see your personalized style analysis appear here.</p>
+          </div>
+          <div class="preview-photo hidden" id="previewPhoto">
+            <img id="previewLarge" alt="Preview" />
+            <div class="preview-overlay">
+              <p>Ready to analyze →</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="results-section hidden" id="resultsSection">
+        <div class="results-header">
+          <h2>Your Personalized Style Profile</h2>
+          <button class="btn-outline" id="tryAgainBtn">↩ Try Again</button>
+        </div>
+
+        <!-- Skin Tone -->
+        <div class="result-card skin-tone-card" id="skinToneCard">
+          <div class="skin-swatch-wrap">
+            <div class="skin-swatch" id="skinSwatch"></div>
+          </div>
+          <div class="skin-info">
+            <h3>Skin Tone Analysis</h3>
+            <p class="skin-cat" id="skinCat"></p>
+            <p class="skin-desc" id="skinDesc"></p>
+            <div class="skin-details" id="skinDetails"></div>
+          </div>
+        </div>
+
+        <!-- Outfit Breakdown -->
+        <div class="two-col-results">
+          <div class="result-card" id="outfitCard">
+            <div class="result-label">DRESS CODE</div>
+            <div class="dress-codes" id="dressCodes"></div>
+            <div class="result-label mt-12">SUGGESTED OUTFIT</div>
+            <p class="result-text" id="suggestedOutfit"></p>
+            <div class="result-label mt-12">CLOTHING ITEMS</div>
+            <div id="clothingItems"></div>
+          </div>
+          <div class="right-col">
+            <div class="result-card" id="hairstyleCard">
+              <div class="result-label">HAIRSTYLE</div>
+              <p class="hairstyle-name" id="hairstyleName"></p>
+              <div class="result-label mt-8">HOW TO</div>
+              <p class="result-text" id="hairstyleHow"></p>
+              <div class="result-label mt-12">ACCESSORIES</div>
+              <div class="accessories-list" id="accessoriesList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Palette + Why It Works -->
+        <div class="result-card palette-card" id="paletteCard">
+          <div class="two-palette">
+            <div>
+              <div class="result-label">COLOR PALETTE</div>
+              <div class="palette-swatches" id="paletteSwatches"></div>
+            </div>
+            <div>
+              <div class="result-label">WHY IT WORKS</div>
+              <p class="result-text" id="whyItWorks"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shopping -->
+        <div class="shop-section" id="shopSection">
+          <h2 class="shop-title">Shop Your Style</h2>
+          <div class="shop-grid" id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+  <section class="how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">The Process</p>
+        <h2>How StyleSense Works</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Upload Your Photo</h3>
+          <p>Share a clear photo of yourself for analysis</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>AI Analysis</h3>
+          <p>Our AI detects your skin tone and analyzes your features</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Get Recommendations</h3>
+          <p>Receive personalized styling advice tailored to you</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3>Shop & Style</h3>
+          <p>Access direct links to purchase recommended items</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <span class="logo-gem">✦</span>
+        <span>StyleSense</span>
+      </div>
+      <p>Generative AI-Powered Fashion Recommendation System</p>
+      <p class="footer-tech">FastAPI · HTML · CSS · JavaScript · Gemini AI · Groq</p>
+      <p class="footer-copy">© 2025 StyleSense. Powered by Advanced AI Technology.</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════ LOADING OVERLAY ═══════════════ -->
+  <div class="loading-overlay hidden" id="loadingOverlay">
+    <div class="loading-box">
+      <div class="loading-spinner"></div>
+      <h3 id="loadingTitle">Analyzing Your Style</h3>
+      <p id="loadingMsg">Detecting skin tone with Gemini Vision...</p>
+      <div class="loading-steps">
+        <div class="load-step active" id="ls1">📸 Reading your photo</div>
+        <div class="load-step" id="ls2">🎨 Detecting skin tone</div>
+        <div class="load-step" id="ls3">✨ Generating style profile</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
