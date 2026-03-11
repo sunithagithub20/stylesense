@@ -51,6 +51,11 @@ MOCK_RECOMMENDATIONS = {
             "styling_tips": "Layer with a light jacket for cooler evenings."
         }
     ],
+    "shopping_items": [
+        {"name": "White Cotton Button-Down", "query": "white cotton button down shirt"},
+        {"name": "Dark Slim Jeans", "query": "dark slim jeans"},
+        {"name": "Navy Blazer", "query": "navy blue blazer"}
+    ],
     "general_advice": "Focus on fit first — well-fitted clothes always look more put-together regardless of price. Invest in quality basics that mix and match easily.",
     "color_suggestions": "Your palette works beautifully with earthy neutrals, classic navy, and crisp whites. Add a pop of color with accessories."
 }

@@ -371,7 +371,9 @@ function renderTextResults(data) {
     <p class="result-text">${data.color_suggestions || ''}</p>
   `;
 
-  $('shopSection').classList.add('hidden');
+  // Render shopping links
+  $('shopSection').classList.remove('hidden');
+  renderShopping(data.shopping_items);
 }
 
 function renderShopping(items) {
