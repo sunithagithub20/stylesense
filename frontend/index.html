@@ -124,7 +124,13 @@
         <p class="section-sub">Upload a clear frontal photo and let our AI craft your personalized style guide.</p>
       </div>
 
-      <!-- Upload Panel -->
+      <!-- Upload / Text Tabs -->
+      <div class="try-tabs">
+        <button class="try-tab active" id="tabPhoto">📸 Photo Analysis</button>
+        <button class="try-tab" id="tabText">✍️ Text Styling</button>
+      </div>
+
+      <!-- Photo Panel -->
       <div class="try-grid" id="uploadPanel">
         <div class="upload-card glass-card">
           <h3>Your Details</h3>
@@ -160,6 +166,44 @@
             <div class="preview-overlay">
               <p>Ready to analyze →</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Panel (Hidden by default) -->
+      <div class="try-grid hidden" id="textPanel">
+        <div class="upload-card glass-card">
+          <h3>Your Preferences</h3>
+          <div class="form-group mb-4">
+            <label class="gender-label">Body Type</label>
+            <input type="text" id="textBodyType" class="key-input" placeholder="e.g. Athletic, Slim, Curvy, Plus-size">
+          </div>
+          <div class="form-group mb-4">
+            <label class="gender-label">Style Preference</label>
+            <input type="text" id="textStylePref" class="key-input" placeholder="e.g. Minimalist, Streetwear, Vintage">
+          </div>
+          <div class="form-group mb-4">
+            <label class="gender-label">Occasion</label>
+            <input type="text" id="textOccasion" class="key-input" placeholder="e.g. Wedding, Office, Casual Weekend">
+          </div>
+          <div class="form-row">
+            <div class="form-group mb-4">
+              <label class="gender-label">Color Palette</label>
+              <input type="text" id="textColor" class="key-input" placeholder="e.g. Earth tones">
+            </div>
+            <div class="form-group mb-4">
+              <label class="gender-label">Budget</label>
+              <input type="text" id="textBudget" class="key-input" placeholder="e.g. Under $100">
+            </div>
+          </div>
+          <button class="btn-primary full mt-8" id="recommendBtn">✦ Generate Recommendations</button>
+        </div>
+
+        <div class="preview-panel glass-card">
+          <div class="preview-empty">
+            <div class="preview-icon">📝</div>
+            <p>Tell us what you're looking for, and our AI will curate perfect outfit recommendations tailored to your
+              exact needs.</p>
           </div>
         </div>
       </div>

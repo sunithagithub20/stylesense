@@ -51,10 +51,31 @@ const $ = id => document.getElementById(id);
 // ─── Init ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initNav();
+  initTabs();
   initUpload();
   initGender();
   initAnalyze();
+  initRecommend();
 });
+
+// ─── Tabs ────────────────────────────────────────────────────
+function initTabs() {
+  const tabP = $('tabPhoto');
+  const tabT = $('tabText');
+  const panP = $('uploadPanel');
+  const panT = $('textPanel');
+
+  if (!tabP || !tabT) return;
+
+  tabP.onclick = () => {
+    tabP.classList.add('active'); tabT.classList.remove('active');
+    panP.classList.remove('hidden'); panT.classList.add('hidden');
+  };
+  tabT.onclick = () => {
+    tabT.classList.add('active'); tabP.classList.remove('active');
+    panT.classList.remove('hidden'); panP.classList.add('hidden');
+  };
+}
 
 // ─── Navigation ──────────────────────────────────────────────
 function initNav() {
@@ -302,6 +323,57 @@ function renderPalette(data) {
   $('whyItWorks').textContent = data.why_it_works || '';
 }
 
+function renderTextResults(data) {
+  // Hide upload/text panels
+  $('uploadPanel').classList.add('hidden');
+  const textPan = $('textPanel');
+  if (textPan) textPan.classList.add('hidden');
+
+  const resSec = $('resultsSection');
+  resSec.classList.remove('hidden');
+  resSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Hide the photo-specific cards
+  $('skinToneCard').style.display = 'none';
+  $('paletteCard').style.display = 'none';
+
+  // We reuse the outfitCard for text results
+  const recs = data.recommendations || [];
+
+  let html = '';
+  recs.forEach((r, i) => {
+    html += `
+      <div class="mb-12">
+        <h3 style="font-size:1.2rem; color:var(--text); margin-bottom:8px;">${i + 1}. ${r.name || 'Outfit'}</h3>
+        <p class="result-text">${r.description || ''}</p>
+        <div class="result-label mt-8">ITEMS</div>
+        <ul style="color:var(--text-sub); margin-left:20px; margin-bottom:12px;">
+          ${(r.items || []).map(item => `<li>${item}</li>`).join('')}
+        </ul>
+        <div class="result-label">COLORS & TIPS</div>
+        <p class="result-text" style="font-size:0.9rem;"><strong>Colors:</strong> ${r.color_scheme || ''}</p>
+        <p class="result-text" style="font-size:0.9rem;"><strong>Tip:</strong> ${r.styling_tips || ''}</p>
+      </div>
+      <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin: 16px 0;">
+    `;
+  });
+
+  $('outfitCard').innerHTML = `
+    <div class="result-label">YOUR TEXT RECOMMENDATIONS</div>
+    ${html}
+  `;
+
+  // General advice in the right column
+  $('hairstyleCard').innerHTML = `
+    <div class="result-label">GENERAL ADVICE</div>
+    <p class="result-text">${data.general_advice || ''}</p>
+    <div class="result-label mt-12">COLOR SUGGESTIONS</div>
+    <p class="result-text">${data.color_suggestions || ''}</p>
+  `;
+
+  $('shopSection').classList.add('hidden');
+}
+
 function renderShopping(items) {
   if (!items || items.length === 0) {
     $('shopSection').classList.add('hidden');
@@ -341,6 +413,52 @@ function resetToUpload() {
   $('uploadPanel').classList.remove('hidden');
 
   window.scrollTo({ top: $('try-it').offsetTop - 80, behavior: 'smooth' });
+}
+
+// ─── Text Recommend ──────────────────────────────────────────
+function initRecommend() {
+  const btn = $('recommendBtn');
+  if (btn) btn.onclick = runRecommend;
+}
+
+async function runRecommend() {
+  const payload = {
+    body_type: $('textBodyType').value.trim() || 'Average',
+    style_preference: $('textStylePref').value.trim() || 'Casual',
+    occasion: $('textOccasion').value.trim() || 'Everyday',
+    color_palette: $('textColor').value.trim() || 'Neutral',
+    budget: $('textBudget').value.trim() || 'Mid-range',
+    gender: state.gender || 'unisex',
+    season: 'Current'
+  };
+
+  showLoading();
+  $('loadingMsg').textContent = 'Analyzing text preferences with AI...';
+
+  try {
+    setLoadStep(1);
+    await delay(400);
+    setLoadStep(2);
+
+    const res = await fetch(`${API_BASE}/api/recommend`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+    setLoadStep(3);
+    await delay(300);
+
+    const data = await res.json();
+    hideLoading();
+    renderTextResults(data);
+  } catch (err) {
+    console.error(err);
+    hideLoading();
+    alert(`Generation failed: ${err.message}`);
+  }
 }
 
 // ─── Helpers ─────────────────────────────────────────────────

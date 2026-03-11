@@ -724,6 +724,65 @@ img {
   margin-bottom: 48px
 }
 
+.try-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.try-tab {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--t);
+}
+
+.try-tab:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+  color: var(--text);
+}
+
+.try-tab.active {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: var(--primary);
+  color: var(--primary-2);
+  font-weight: 600;
+}
+
+.try-grid.hidden {
+  display: none !important;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.mt-8 {
+  margin-top: 32px;
+}
+
+.mb-12 {
+  margin-bottom: 48px;
+}
+
 .glass-card {
   background: var(--card);
   border: 1px solid var(--border);
