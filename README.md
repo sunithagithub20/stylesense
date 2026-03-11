@@ -36,8 +36,10 @@ cp .env.example .env
 |---|---|
 | `GEMINI_API_KEY` | [aistudio.google.com](https://aistudio.google.com) — Free |
 | `GROQ_API_KEY` | [console.groq.com](https://console.groq.com) — Free |
-| `HF_API_TOKEN` | [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) — Free |
-| `IBM_API_KEY` + `IBM_PROJECT_ID` | [ibm.com/watsonx](https://www.ibm.com/watsonx) — Free tier |
+| `HF_API_TOKEN` | [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) — Free *(Optional)* |
+| `IBM_API_KEY` + `IBM_PROJECT_ID` | [ibm.com/watsonx](https://www.ibm.com/watsonx) — Free tier *(Optional)* |
+
+> **Note:** If you cannot create Hugging Face or IBM accounts, simply leave those fields blank in the UI or `.env` file. The application is designed to gracefully fall back to Groq and Gemini, meaning **it will work perfectly fine 100% of the time with just your Gemini and Groq keys!**
 
 ### 3. Run the server
 ```bash
