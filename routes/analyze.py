@@ -74,11 +74,11 @@ Provide SPECIFIC brand names, colors, and fabrics. Return ONLY valid JSON in thi
   }},
   "why_it_works": "A 3-4 sentence explanation of why this palette complements their skin tone.",
   "shopping_items": [
-    {{"name": "Item name", "query": "amazon search query"}},
-    {{"name": "Item name", "query": "amazon search query"}},
-    {{"name": "Item name", "query": "amazon search query"}},
-    {{"name": "Item name", "query": "amazon search query"}},
-    {{"name": "Item name", "query": "amazon search query"}}
+    {{"name": "Item name", "query": "amazon search query for {gender}"}},
+    {{"name": "Item name", "query": "amazon search query for {gender}"}},
+    {{"name": "Item name", "query": "amazon search query for {gender}"}},
+    {{"name": "Item name", "query": "amazon search query for {gender}"}},
+    {{"name": "Item name", "query": "amazon search query for {gender}"}}
   ]
 }}
 Return only valid JSON. No markdown, no explanation."""
