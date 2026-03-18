@@ -8,7 +8,7 @@ from utils import ibm_client
 router = APIRouter()
 
 # Mock data for demo mode
-MOCK_RESULT = {
+MOCK_RESULT_MALE = {
     "skin_tone": {
         "category": "Medium",
         "hex": "#C68642",
@@ -45,10 +45,48 @@ MOCK_RESULT = {
     ]
 }
 
+MOCK_RESULT_FEMALE = {
+    "skin_tone": {
+        "category": "Medium",
+        "hex": "#C68642",
+        "rgb": {"r": 198, "g": 134, "b": 66},
+        "undertone": "Warm",
+        "description": "You have a beautiful medium warm skin tone with golden undertones — similar to celebrities like Jennifer Lopez and Priyanka Chopra."
+    },
+    "dress_code": ["Elegant", "Business Casual", "Bohemian", "Cocktail"],
+    "suggested_outfit": "A terracotta-colored wrap dress paired with nude block heels and a beige blazer for a sophisticated business casual look, while a bohemian style could include a floral midi skirt with a cream silk blouse and tan sandals.",
+    "clothing_items": [
+        {"item": "Dress", "color": "Terracotta", "type": "Wrap Dress", "brand": "Zara", "fabric": "Linen Mix"},
+        {"item": "Blouse", "color": "Cream", "type": "Silk Blouse", "brand": "Club Monaco", "fabric": "Silk"},
+        {"item": "Shoes", "color": "Nude", "type": "Block Heels", "brand": "Steve Madden", "fabric": "Leather"}
+    ],
+    "hairstyle": {
+        "style": "Soft Beach Waves",
+        "how_to": "Apply a heat protectant spray followed by loose curls using a wide-barrel wand. Gently brush through for a natural, wavy look and finish with a light-hold sea salt spray for texture."
+    },
+    "accessories": ["Gold Layered Necklace", "Pearl Stud Earrings", "Beige Leather Tote", "Modern Square Sunglasses"],
+    "color_palette": {
+        "primary": "Terracotta",
+        "secondary": "Cream",
+        "accent": "Gold"
+    },
+    "why_it_works": "Warm terracotta and soft cream beautifully enhance the golden undertones of your medium skin, while gold accessories provide a radiant finish.",
+    "style_vibe": ["Elegant", "Chic"],
+    "shopping_items": [
+        {"name": "Terracotta Wrap Dress", "query": "terracotta wrap dress"},
+        {"name": "Cream Silk Blouse", "query": "cream silk blouse"},
+        {"name": "Nude Block Heels", "query": "nude block heels"},
+        {"name": "Gold Layered Necklace", "query": "gold layered necklace"},
+        {"name": "Beige Leather Tote", "query": "beige leather tote"},
+        {"name": "Floral Midi Skirt", "query": "floral midi skirt"}
+    ]
+}
+
 
 def _build_style_prompt(gender: str, skin_category: str, undertone: str, hex_code: str) -> str:
-    return f"""You are StyleSense, an expert AI fashion stylist. Generate a comprehensive personalized style profile for a {gender} with:
+    return f"""You are StyleSense, an expert AI fashion stylist. Generate a comprehensive personalized style profile for a {gender.upper()} person with:
 
+Target Gender: {gender.upper()} (IMPORTANT: Ensure all clothing and hairstyles are for {gender})
 Skin Tone: {skin_category}
 Undertone: {undertone}
 Hex: {hex_code}
@@ -202,7 +240,9 @@ Return only JSON, no other text."""
 
     # 2e. Demo fallback
     if style_data is None:
-        style_data = {k: MOCK_RESULT[k] for k in MOCK_RESULT if k != "skin_tone"}
+        print(f"DEBUG: Using gender-specific mock data for {gender}")
+        mock_source = MOCK_RESULT_FEMALE if gender == "female" else MOCK_RESULT_MALE
+        style_data = {k: mock_source[k] for k in mock_source if k != "skin_tone"}
         # If demo mode, adjust mock queries to the current gender
         for item in style_data.get("shopping_items", []):
             item["query"] = f"{item['query']} for {gender}"

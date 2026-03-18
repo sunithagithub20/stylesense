@@ -27,11 +27,11 @@ class RecommendResponse(BaseModel):
     general_advice: str
     color_suggestions: str
 
-MOCK_RECOMMENDATIONS = {
+MOCK_RECOMMENDATIONS_MALE = {
     "recommendations": [
         {
             "name": "Classic Casual Chic",
-            "description": "A timeless, effortlessly stylish everyday look.",
+            "description": "A timeless, effortlessly stylish everyday look for men.",
             "items": ["White cotton button-down shirt", "Dark slim-fit jeans", "White leather sneakers", "Minimalist watch"],
             "color_scheme": "White, Indigo, Crisp Neutrals",
             "styling_tips": "Tuck in the front of the shirt for a polished yet relaxed vibe."
@@ -52,18 +52,53 @@ MOCK_RECOMMENDATIONS = {
         }
     ],
     "shopping_items": [
-        {"name": "White Cotton Button-Down", "query": "white cotton button down shirt"},
-        {"name": "Dark Slim Jeans", "query": "dark slim jeans"},
-        {"name": "Navy Blazer", "query": "navy blue blazer"}
+        {"name": "White Cotton Button-Down", "query": "white cotton button down shirt for men"},
+        {"name": "Dark Slim Jeans", "query": "dark slim jeans for men"},
+        {"name": "Navy Blazer", "query": "navy blue blazer for men"}
     ],
     "general_advice": "Focus on fit first — well-fitted clothes always look more put-together regardless of price. Invest in quality basics that mix and match easily.",
     "color_suggestions": "Your palette works beautifully with earthy neutrals, classic navy, and crisp whites. Add a pop of color with accessories."
 }
 
+MOCK_RECOMMENDATIONS_FEMALE = {
+    "recommendations": [
+        {
+            "name": "Sophisticated Everyday",
+            "description": "A polished and versatile look for the modern woman.",
+            "items": ["Silk midi skirt", "Fitted cashmere sweater", "Pointed-toe flats", "Gold hoop earrings"],
+            "color_scheme": "Cream, Camel, Gold",
+            "styling_tips": "Balance the flowy skirt with a structured bag for a professional edge."
+        },
+        {
+            "name": "Chic City Style",
+            "description": "Effortlessly cool for urban adventures and social gatherings.",
+            "items": ["Straight-leg leather trousers", "Oversized white poplin shirt", "Strappy sandals", "Minimalist tote"],
+            "color_scheme": "Black, White, Tan",
+            "styling_tips": "Leave the shirt half-tucked to create a relaxed yet intentional silhouette."
+        },
+        {
+            "name": "Elevated Casual Weekend",
+            "description": "Comfort meets high-end style for relaxed outings.",
+            "items": ["High-waisted linen trousers", "Ribbed tank top", "Denim jacket", "Leather slides"],
+            "color_scheme": "Olive, White, Denim",
+            "styling_tips": "Drape the denim jacket over your shoulders for a stylish, layered effect."
+        }
+    ],
+    "shopping_items": [
+        {"name": "Silk Midi Skirt", "query": "silk midi skirt for women"},
+        {"name": "Cashmere Sweater", "query": "cashmere sweater for women"},
+        {"name": "Leather Trousers", "query": "leather trousers for women"}
+    ],
+    "general_advice": "Accessorizing is the key to personalizing your look. A statement belt or unique jewelry can completely transform simple silhouettes.",
+    "color_suggestions": "Soft earth tones and classic neutrals provide a timeless foundation. Experiment with jewel-toned accents for a sophisticated pop."
+}
+
 @router.post("/recommend")
 async def get_recommendations(request: RecommendRequest):
     prompt = f"""
-You are StyleSense, an expert AI fashion stylist. Create 3 personalized outfit recommendations for this person:
+You are StyleSense, an expert AI fashion stylist. Create 3 personalized outfit recommendations for this {request.gender.upper()} person:
+
+Target Gender: {request.gender.upper()} (IMPORTANT: Ensure all clothing items and descriptions are for {request.gender})
 
 - Body Type: {request.body_type}
 - Style Preference: {request.style_preference}
@@ -107,9 +142,9 @@ Format your response as valid JSON with this structure:
         result = None
 
     if result is None:
-        print("DEBUG: Using mock recommendations (fallback)")
+        print(f"DEBUG: Using gender-specific mock recommendations for {request.gender}")
         # Return mock data when no API key or error
-        return MOCK_RECOMMENDATIONS
+        return MOCK_RECOMMENDATIONS_FEMALE if request.gender == "female" else MOCK_RECOMMENDATIONS_MALE
 
     try:
         import json, re
