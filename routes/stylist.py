@@ -48,9 +48,15 @@ Always encourage the user's personal style journey."""
 
     full_prompt = f"{system_prompt}\n\nConversation history:\n{history_text}\nUser: {request.message}\n\nYour response:"
 
-    result = await gemini_client.generate_text(full_prompt, request.api_key)
+    try:
+        print(f"DEBUG: Chatting with stylist - message: {request.message[:50]}...")
+        result = await gemini_client.generate_text(full_prompt, request.api_key)
+    except Exception as e:
+        print(f"ERROR: Gemini stylist chat failed: {str(e)}")
+        result = None
 
     if result is None:
+        print("DEBUG: Using mock stylist response (fallback)")
         response = MOCK_RESPONSES[_mock_counter % len(MOCK_RESPONSES)]
         _mock_counter += 1
         return {"response": response, "is_mock": True}

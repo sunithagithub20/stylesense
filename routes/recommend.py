@@ -99,10 +99,16 @@ Format your response as valid JSON with this structure:
   "color_suggestions": "..."
 }}
 """
-    result = await gemini_client.generate_text(prompt, request.api_key)
+    try:
+        print(f"DEBUG: Generating recommendations for body_type={request.body_type}, style={request.style_preference}")
+        result = await gemini_client.generate_text(prompt, request.api_key)
+    except Exception as e:
+        print(f"ERROR: Gemini recommendation failed: {str(e)}")
+        result = None
 
     if result is None:
-        # Return mock data when no API key
+        print("DEBUG: Using mock recommendations (fallback)")
+        # Return mock data when no API key or error
         return MOCK_RECOMMENDATIONS
 
     try:

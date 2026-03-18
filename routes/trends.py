@@ -80,9 +80,15 @@ Format as valid JSON:
   "must_have_accessory": "..."
 }}
 """
-    result = await gemini_client.generate_text(prompt, api_key)
+    try:
+        print(f"DEBUG: Fetching trends for season={season}, style={style}")
+        result = await gemini_client.generate_text(prompt, api_key)
+    except Exception as e:
+        print(f"ERROR: Gemini trends failed: {str(e)}")
+        result = None
 
     if result is None:
+        print("DEBUG: Using mock trends (fallback)")
         return MOCK_TRENDS
 
     try:

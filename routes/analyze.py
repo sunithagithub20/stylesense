@@ -127,10 +127,18 @@ Return ONLY a JSON with this exact format:
 }}
 Return only JSON, no other text."""
 
-    skin_result = await gemini_client.analyze_image_with_text(image_data, vision_prompt, gemini_key)
-    skin_data = _parse_json(skin_result)
+    skin_data = None
+    try:
+        print(f"DEBUG: Starting Gemini Vision analysis for gender={gender}")
+        skin_result = await gemini_client.analyze_image_with_text(image_data, vision_prompt, gemini_key)
+        skin_data = _parse_json(skin_result)
+        if skin_data:
+            print("DEBUG: Gemini Vision successful")
+    except Exception as e:
+        print(f"ERROR: Gemini Vision failed: {str(e)}")
 
     if skin_data is None:
+        print("DEBUG: Using mock skin tone data (fallback)")
         skin_data = {
             "skin_tone_category": "Medium",
             "hex_code": "#C68642",

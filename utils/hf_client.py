@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-_hf_token = os.getenv("HF_API_TOKEN", "")
+_hf_token = os.getenv("HF_API_TOKEN") or os.getenv("HF_API_KEY", "")
 
 # Hugging Face Inference API endpoint
 HF_API_URL = "https://api-inference.huggingface.co"
